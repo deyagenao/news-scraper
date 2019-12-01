@@ -7,7 +7,8 @@ var Schema = mongoose.Schema;
 var ArticleSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     link: {
         type: String,
@@ -19,6 +20,10 @@ var ArticleSchema = new Schema({
     },
     imgLink: {
         type: String 
+    },
+    saved: {
+        type: Boolean,
+        default: false
     },
     // Linking the article with all associated Comments 
     comments: {
