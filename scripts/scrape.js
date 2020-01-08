@@ -3,8 +3,8 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 // Make request via axios to grab HTML body from NPR sit 
-var scrape = function(cb){
-    axios.get("https://www.npr.org/").then(function(response){
+var scrape = function(){
+    return axios.get("https://www.npr.org/").then(function(response){
 
         // Load HTML into cheerio and save it to variable
         var $ = cheerio.load(response.data)
@@ -26,9 +26,9 @@ var scrape = function(cb){
                 description: description,
                 imgLink: imgLink
             })
-        })
+        });
         
-        cb(results);
+        return results;
     })  
 }
 

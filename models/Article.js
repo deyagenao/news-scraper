@@ -4,11 +4,11 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 // Use the Schema constructor to create a new ArticleSchema object 
-var ArticleSchema = new Schema({
+var articleSchema = new Schema({
     title: {
         type: String,
         required: true,
-        unique: true
+        unique: { index: {unique: true } }
     },
     link: {
         type: String,
@@ -18,21 +18,21 @@ var ArticleSchema = new Schema({
         type: String, 
         required: true
     },
+    data: {
+        type: Date,
+        default: Date.now
+    },
     imgLink: {
         type: String 
     },
     saved: {
         type: Boolean,
         default: false
-    },
-    // Linking the article with all associated Comments 
-    comments: {
-        type: Schema.Types.ObjectId
     }
 })
 
 // Create the model based on the ArticleSchema using mongoose's model method 
-var Article = mongoose.model("Article", ArticleSchema);
+var Article = mongoose.model("Article", articleSchema);
 
 // Export Article model
 module.exports = Article;

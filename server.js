@@ -9,8 +9,11 @@ var PORT = process.env.PORT || 3000;
 // Define express app variable 
 var app = express();
 
+// Require routes 
+var routes = require("./routes");
+
 // Middleware
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
@@ -24,13 +27,13 @@ app.engine(
 app.set("view engine", "handlebars");
 
 // Routes
-require("./routes/routes")(app);
+app.use(routes);
 
 // If deployed, use deployed database. Otherwise, use local mongoArticles database 
-var db = process.env.MONGODB_URI || "mongodb://localhost/mongoArticles";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoArticles";
 
 // Connect mongoose to database 
-mongoose.connect(db, function(err){
+mongoose.connect(MONGODB_URI, function(err){
     if (err){
         console.log(err)
     }

@@ -1,31 +1,23 @@
 // Import the Comment mongoose model
-var Comment = require("../models/Comment");
+var db = require("../models");
 
 module.exports = {
-    getComments: function(data, cb) {
-        Comment.find({
-            _articleId: data._id
-        }, cb);
-    },
-    saveNewComment: function(data, cb) {
-        var newComment = {
-            _articleId: data._id,
-            body: data.body
-        };
-
-        Comment.create(newComment, function(err, doc) {
-            if(err) {
-                console.log(err);
-            }
-            else {
-                console.log(doc);
-                cb(doc);
-            }
+    // Find comments associated with a specific article 
+    find: function(req, res) {
+        db.Comment.find({ _articleId: req.params.id }).then(function(dbComment) {
+            res.json(dbComment);
         })
     },
-    deleteComment: function(data,cb) {
-        Comment.remove({
-            _id: data._id
-        }, cb);
+    // create new comment
+    create: function(req, res) {
+        db.Comment.create(req.body).then(function(dbComment) {
+            res.json(dbComment);
+        });
+    },
+    // Delete a comment
+    delete: function(req, res) {
+        db.Comment.remove({ _id: req.params.id }).then(function(dbComment) {
+            res.json(dbComment);
+        });
     }
-}
+};

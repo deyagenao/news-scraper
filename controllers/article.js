@@ -1,33 +1,26 @@
-// Import scrape function 
-var scrape = require("../scripts/scrape");
-
-// Import the Article mongoose model
-var Article = require("../models/Article");
+// Import the Article model
+var db = require("../models");
 
 module.exports = { 
-    addNewArticles: function(cb) {
-        scrape(function(articles){
-            Article.collection.insertMany(articles, {ordered:false}, function(err, docs){
-                cb(err,docs);
-            });
+    // Find all articles, sort them by date, send them back to client 
+    findAll: function(req, res) {
+        db.Article
+        .find(req.query)
+        .sort({ date: -1 })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
         });
     },
-    deleteArticles: function(query, cb) {
-        Article.remove(query, cb);
+    // Delete specific articles
+    delete: function(req, res) {
+        db.Article.remove({ _id: req.params.id }).then(function(dbArticle) {
+            res.json(dbArticle);
+        });
     },
-    getArticles: function(query, cb) {
-        Article.find(query)
-            .sort({
-                _id: -1
-            })
-            .exec(function(err, doc){
-                cb(doc);
-            });
-    },
-    updateArticle: function(query, cb) {
-        Article.update({_id: query.id}, {
-            $set: query
-        }, {}, cb);
+    // Update specific article
+    update: function(req, res) {
+        db.Article.findOneAndUpdate({_id: req.params.id}, { $set: req.body }, { new: true }).then(function(dbArticle) {
+            res.json(dbArticle);
+        });
     }
-
-}
+};
