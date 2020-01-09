@@ -24,7 +24,15 @@ $(document).ready(function(){
 
     // Function for retrieving articles from the database and displaying on page 
     function renderArticles(articles) {
-        // 
+        // Array to hold all data for each of the articles in the database 
+        var articleCards = [];
+        // Run for loop to pass the data for each card into the create card function, which creates a card for each article with its information 
+        for (var i = 0; i < articles.length; i++) {
+            articleCards.push(createCard(articles[i]));
+        }
+
+        // Append all of the cards in the articleCards array to the article container on the page 
+        articleContainer.append(articleCards);
 
     }
 
@@ -83,7 +91,8 @@ $(document).ready(function(){
             // If data was saved correctly
             if (data.saved) {
                 // Re render the page and reload the list of articles 
-                initPage();
+                // initPage();
+                location.reload();
             }
         });
     }

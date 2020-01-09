@@ -19,7 +19,7 @@ module.exports = {
     },
     // Update specific article
     update: function(req, res) {
-        db.Article.findOneAndUpdate({_id: req.params.id}, { $set: req.body }, { new: true }).then(function(dbArticle) {
+        db.Article.findByIdAndUpdate({_id: req.params.id}, { $set: req.body }, { new: true }).then(function(dbArticle) {
             res.json(dbArticle);
         });
     }
