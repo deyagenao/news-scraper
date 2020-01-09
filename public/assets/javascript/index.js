@@ -106,6 +106,7 @@ $(document).ready(function(){
             initPage();
             bootbox.alert($("<h3 class ='text-center m-top-80'>").text(data.message));
         });
+        location.reload();
     }
 
     // Function for clearing all articles from database, for when clear button is clicked 
